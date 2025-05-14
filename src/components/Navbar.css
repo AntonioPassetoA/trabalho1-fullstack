@@ -24,3 +24,14 @@
 .navbar ul li a:hover {
   text-decoration: underline;
 }
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.user-info button {
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}

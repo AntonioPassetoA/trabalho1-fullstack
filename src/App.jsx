@@ -1,21 +1,31 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// App.jsx
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import PostList from './components/PostList'; // Importando PostList
+import Home from './pages/Home';
+
+
+// Lazy loading para PostList
+const PostList = lazy(() => import('./components/PostList'));
+const MyPosts = lazy(() => import('./components/MyPosts'));
+
 
 function App() {
   return (
     <Router>
-      <Navbar />
+      <Navbar />  {/* Aqui está o seu Header de Navegação */}
+
       <div className="content">
-        <div className="home-welcome">Bem-vindo à SPA</div>  
-        <h2 className="api-description">
-          Esta aplicação utiliza a API JSONPlaceholder, um serviço gratuito para testar requisições HTTP.
-          Aqui, você pode visualizar posts, aprender sobre APIs RESTful e interagir com os dados exibidos.
-        </h2>
-        <Routes>
-          <Route path="/posts" element={<PostList />} />
-        </Routes>
+        <Suspense fallback={<div>Carregando...</div>}> {/* Lazy loading */}
+          <Routes>
+            <Route path="/" element={<div>Bem-vindo à página inicial!</div>} />
+            <Route path="/posts" element={<PostList />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/meus-posts" element={<MyPosts />} />
+            {/* Rota com redirecionamento */}
+            <Route path="*" element={<Navigate to="/" />} /> {/* Redireciona para a Home caso a rota não seja encontrada */}
+          </Routes>
+        </Suspense>
       </div>
     </Router>
   );
